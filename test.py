@@ -7,6 +7,7 @@ class Tests(unittest.TestCase):
     telegram = Telegram()
     def test_VK_main():
         
+        
 
 
 if __init__ == "__main__":
