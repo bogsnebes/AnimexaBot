@@ -13,13 +13,9 @@ class VK():
         """Бот ждет сообщения от пользователя. Получает данные типа dict"""
         for event in self.longpoll.listen():
             voprosi = str(event)
-            print('Hello nigga')
-            print(event)
             self.msg = {}
             if 'message_new' in voprosi:
-                print(type(event))
                 self.msg['text'] = event.obj['message']['text'] # Текст сообщения
-                print(self.msg['text'])
                 self.msg['user_id'] = str(event.obj['message']['from_id']) # User, который отправил сообщения
                 self.msg['random_id'] = r.randint(-2147483648,2147483647)
                 return self.msg
