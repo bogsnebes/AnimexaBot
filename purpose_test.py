@@ -7,3 +7,6 @@ vkObj = VK('6cb02efc792b6ab73f5128fc0a2ff825456cae8daa81fc22e9b747381d41b6287e08
 telegramObj = Telegram('awdawdawd')
 parserObj_AnimedubRu = ParserAnimedubRu()
 parserObj_AnimedubLife = ParserAniDubLife()
+
+
+parserObj_AnimedubLife.links_of_anime()

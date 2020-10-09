@@ -13,7 +13,11 @@ header = {
 class Parser():
     """Интерфейс парсера сайта"""
     def search_on_site(self, text):
-        """Поиск значения на сайте"""
+        """Поиск значения на сайте
+
+        Args:
+            text (str): Название аниме
+        """
         pass
     def information_of_anime(self):
         """Информация о аниме с его ссылкой"""
@@ -26,22 +30,22 @@ class Parser():
 class ParserAniDubLife(Parser):
     """Парсер для сайта https://anime.anidub.life/"""
     def search_on_site(self, text):
-        """Поиск значения на сайте"""
-        self.text = text
+        """Поиск значения на сайте
+
+        Args:
+            text (str): Название аниме
+        """
         anidub_post = 'https://anime.anidub.life/index.php?do=search'
         post = {
             'do': "search",
             'subaction': "search",
-            'story': self.text
+            'story': text
         }
         response = requests.post(anidub_post, data=post, headers=header).text
         # Обрабатываем ответ
         self.soup = bs4.BeautifulSoup(response, 'lxml')
         block = self.soup.find('div', id = 'main')
         test_if = str(block)
-        f = open('text.txt', 'w')
-        f.write(test_if)
-        f.close()
         if test_if.find("По Вашему запросу найдено") == -1:
             # Отправка сообщения о том, что запрос выстроен неправильно
             return False
@@ -51,16 +55,44 @@ class ParserAniDubLife(Parser):
             self.check_count_answers = self.check_count_answers[44:-8]
             return True
 
+    def links_of_anime(self):
+        """Все ссылки на аниме с названиями"""
+        block = self.soup.find_all(attrs = {'class':"th-in"})[1]
+        a, b, c, self.url_on_anime_1, k = str(block).split('"', 4)
+        if 'https://anime.anidub.life/videoblog/' in self.url_on_anime_1:
+            self.url_on_anime_1 = None 
+        try:
+            block = self.soup.find_all(attrs = {'class':"th-in"})[3]
+            a, b, c, self.url_on_anime_2, k = str(block).split('"', 4)
+            if 'https://anime.anidub.life/videoblog/' in self.url_on_anime_2:
+                self.url_on_anime_2 = None 
+        except:
+            self.url_on_anime_2 = None
+            self.url_on_anime_3 = None
+            return None
+        try:
+            block = self.soup.find_all(attrs = {'class':"th-in"})[5]
+            a, b, c, self.url_on_anime_3, k = str(block).split('"', 4)
+            if 'https://anime.anidub.life/videoblog/' in self.url_on_anime_3:
+                self.url_on_anime_3 = None 
+        except:
+            self.url_on_anime_3 = None
+            return None
+
     def information_of_anime(self):
         """Информация о аниме с его ссылкой"""
-        block = self.soup.find(attrs = {'class':"th-in"})
-        a, b, c, url_on_anime, k = str(block).split('"', 4)
-        return url_on_anime # Ссылка на аниме
-
+        response = requests.get(self.url_on_anime_1, headers = header)
+        soup = bs4.BeautifulSoup(response, 'lxml')
+        block = soup.find(attrs = {'meta property':'og:title'})
 
 class ParserAnimedubRu(Parser):
     """Парсер для сайта https://animedub.ru/"""
     def search_on_site(self, text):
+        """Поиск значения на сайте
+
+        Args:
+            text (str): Название аниме
+        """
         self.text = text
         anidub_post = 'https://animedub.ru/index.php?do=search'
         post = {
@@ -71,7 +103,7 @@ class ParserAnimedubRu(Parser):
         response = requests.post(anidub_post, data=post, headers=header).text
         # Обрабатываем ответ
         self.soup = bs4.BeautifulSoup(response, 'lxml')
-        block = block.find_all(attrs = {'class':'berrors'})
+        block = self.soup.find('div', id = 'dle-content')
         test_if = str(block)
         if test_if.find("По Вашему запросу найдено") == -1:
             # Отправка сообщения о том, что запрос выстроен неправильно
