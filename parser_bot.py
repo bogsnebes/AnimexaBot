@@ -12,7 +12,7 @@ header = {
 
 class Parser():
     """Интерфейс парсера сайта"""
-    def search_on_site(self, text):
+    def search_on_site(self, text:str):
         """Поиск значения на сайте
 
         Args:
@@ -29,7 +29,7 @@ class Parser():
 
 class ParserAniDubLife(Parser):
     """Парсер для сайта https://anime.anidub.life/"""
-    def search_on_site(self, text):
+    def search_on_site(self, text:str):
         """Поиск значения на сайте
 
         Args:
@@ -81,7 +81,7 @@ class ParserAniDubLife(Parser):
 
     def information_of_anime(self):
         """Информация о аниме с его ссылкой"""
-        def info_about_one_url(url):
+        def info_about_one_url(url:str):
             """Берет ссылку на аниме страницу, после чего парсит её и выводит всю информацию
 
             Args:
@@ -150,7 +150,7 @@ class ParserAniDubLife(Parser):
 
 class ParserAnimedubRu(Parser):
     """Парсер для сайта https://animedub.ru/"""
-    def search_on_site(self, text):
+    def search_on_site(self, text:str):
         """Поиск значения на сайте
 
         Args:
