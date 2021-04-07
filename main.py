@@ -5,7 +5,7 @@ import asyncio
 
 
 vkObj = VK('', '')
-telegramObj = Telegram('dadadad')
+telegramObj = Telegram('')
 parserObj_AnimedubRu = ParserAnimedubRu()
 parserObj_AnimedubLife = ParserAniDubLife()
 
